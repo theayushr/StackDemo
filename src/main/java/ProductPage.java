@@ -34,7 +34,6 @@ public class ProductPage extends Abstract{
         wait.until(ExpectedConditions.visibilityOf(usernamecheck));
         List<String> likeMe = Arrays.asList("iPhone 12", "iPhone 11", "One Plus 8", "iPhone XS Max","Galaxy S10","Pixel 4","One Plus 8T","One Plus 6T", "Galaxy S20 Ultra");
 
-
         for(int i=1; i<=items.size(); i++){
             WebElement itemName = driver.findElement(By.xpath("(//*[@class='shelf-item__title'])["+i+"]"));
             if(likeMe.contains(itemName.getText())){
