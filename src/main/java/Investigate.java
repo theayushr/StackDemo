@@ -34,9 +34,6 @@ public class Investigate{
         driver.findElement(By.cssSelector("#login-btn")).click();
 
 
-
-
-
         List<WebElement> items = driver.findElements(By.cssSelector(".shelf-item__title"));
         List<String> likeMe = Arrays.asList("iPhone 12", "iPhone 11", "One Plus 8", "iPhone XS Max","Galaxy S10","Pixel 4","One Plus 8T","One Plus 6T", "Galaxy S20 Ultra");
 
