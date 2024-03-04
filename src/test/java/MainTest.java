@@ -1,7 +1,7 @@
 import org.testng.annotations.Test;
 
 public class MainTest extends Base{
-    
+
     @Test
     public void signInTest(){
         SignIn obj = new SignIn(driver);
