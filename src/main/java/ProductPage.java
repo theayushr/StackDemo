@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,12 +21,17 @@ public class ProductPage extends Abstract{
         PageFactory.initElements(driver, this);
     }
 
+    @FindBy(css = ".shelf-item__title")
+    List<WebElement> items;
+
+    @FindBy (css = ".username")
+    WebElement usernamecheck;
+
     int totalPrice = 0;
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(8));
     public void buyNow() throws InterruptedException {
 
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(8));
-
-        List<WebElement> items = driver.findElements(By.cssSelector(".shelf-item__title"));
+        wait.until(ExpectedConditions.visibilityOf(usernamecheck));
         List<String> likeMe = Arrays.asList("iPhone 12", "iPhone 11", "One Plus 8", "iPhone XS Max","Galaxy S10","Pixel 4","One Plus 8T","One Plus 6T", "Galaxy S20 Ultra");
 
 
@@ -49,26 +55,52 @@ public class ProductPage extends Abstract{
         }
         driver.findElement(By.cssSelector(".buy-btn")).click();
     }
+    @FindBy(css = "#firstNameInput")
+    WebElement firstName;
+
+    @FindBy(css = "#lastNameInput")
+    WebElement lastName;
+
+    @FindBy (css ="#addressLine1Input")
+    WebElement address;
+
+    @FindBy (css = "#provinceInput")
+    WebElement privince;
+
+    @FindBy (css = "#postCodeInput")
+    WebElement postCode;
+
+    @FindBy (css = "#checkout-shipping-continue")
+    WebElement checkout;
 
     public void fillForm(){
 
-        driver.findElement(By.cssSelector("#firstNameInput")).sendKeys("Thomas");
-        driver.findElement(By.cssSelector("#lastNameInput")).sendKeys("Shelby");
+        wait.until(ExpectedConditions.visibilityOf(firstName));
+        firstName.sendKeys("Thomas");
+        lastName.sendKeys("Shelby");
 
-        driver.findElement(By.cssSelector("#addressLine1Input")).sendKeys("Birmingham");
-        driver.findElement(By.cssSelector("#provinceInput")).sendKeys("England");
-        driver.findElement(By.cssSelector("#postCodeInput")).sendKeys("2312");
-
-        driver.findElement(By.cssSelector("#checkout-shipping-continue")).click();
-
+        address.sendKeys("Birmingham");
+        privince.sendKeys("England");
+        postCode.sendKeys("2312");
+        checkout.click();
     }
+    @FindBy(css = "#confirmation-message")
+    WebElement confirmEle;
+
+    @FindBy(css = ".cart-priceItem-value")
+    WebElement pricetag;
+
+    @FindBy(css = "#downloadpdf")
+    WebElement download;
 
     public void validation(){
-        String confirmation = driver.findElement(By.cssSelector("#confirmation-message")).getText();
+
+        wait.until(ExpectedConditions.visibilityOf(confirmEle));
+        String confirmation = confirmEle.getText();
         String confirm = "Your Order has been successfully placed.";
         Assert.assertEquals(confirmation, confirm);
 
-        String stringPrice = driver.findElement(By.cssSelector(".cart-priceItem-value")).getText();
+        String stringPrice = pricetag.getText();
         stringPrice = stringPrice.split("\\.")[0].trim().substring(1);
 
         int price = Integer.parseInt(stringPrice);
@@ -76,7 +108,7 @@ public class ProductPage extends Abstract{
         System.out.println(totalPrice);
         Assert.assertEquals(price, totalPrice);
 
-        driver.findElement(By.cssSelector("#downloadpdf")).click();
+        download.click();
     }
 
     public void close(){
